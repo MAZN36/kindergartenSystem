@@ -1,0 +1,32 @@
+package ${package}.dao.mysql;
+
+import ${package}.entity.${className}VO;
+
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Mapper;
+
+/**
+ * ${comments}
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+@Mapper
+public interface ${className}Dao {
+
+	public ${className}VO get(${pk.attrType} ${pk.attrname});
+
+    public List<${className}VO> list(Map<String,Object> map);
+
+    public int count(Map<String,Object> map);
+
+    public int save(${className}VO ${classname});
+
+    public int update(${className}VO ${classname});
+
+    public int remove(${pk.attrType} ${pk.columnName});
+
+    public int batchRemove(${pk.attrType}[] ${pk.attrname}s);
+}

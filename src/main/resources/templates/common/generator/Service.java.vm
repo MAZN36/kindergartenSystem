@@ -1,0 +1,30 @@
+package ${package}.service;
+
+import ${package}.entity.${className}VO;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * ${comments}
+ * 
+ * @author ${author}
+ * @email ${email}
+ * @date ${datetime}
+ */
+public interface ${className}Service {
+	
+	${className}VO get(${pk.attrType} ${pk.attrname});
+	
+	List<${className}VO> list(Map<String, Object> map);
+	
+	int count(Map<String, Object> map);
+	
+	int save(${className}VO ${classname});
+	
+	int update(${className}VO ${classname});
+	
+	int remove(${pk.attrType} ${pk.attrname});
+	
+	int batchRemove(${pk.attrType}[] ${pk.attrname}s);
+}

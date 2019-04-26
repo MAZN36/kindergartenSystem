@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.kinder.dao.mysql.StuAttendanceDao">
+
+	<select id="get" resultType="com.bootdo.kinder.entity.StuAttendanceVO">
+		select `a_Id`,`a_Classs`,`a_Student_No`,`a_Stu_Id`,`a_Date`,`a_Course_Name`,`a_period_Id`,`a_Operator`,`a_Attendance_Type`,`a_Note` from s_stu_attendance where a_Id = #{value}
+	</select>
+
+	<select id="list" resultType="com.bootdo.kinder.entity.StuAttendanceVO">
+		select `a_Id`,`a_Classs`,`a_Student_No`,`a_Stu_Id`,`a_Date`,`a_Course_Name`,`a_period_Id`,`a_Operator`,`a_Attendance_Type`,`a_Note` from s_stu_attendance
+        <where>  
+		  		  <if test="aId != null and aId != ''"> and a_Id = #{aId} </if>
+		  		  <if test="aClasss != null and aClasss != ''"> and a_Classs = #{aClasss} </if>
+		  		  <if test="aStudentNo != null and aStudentNo != ''"> and a_Student_No = #{aStudentNo} </if>
+		  		  <if test="aStuId != null and aStuId != ''"> and a_Stu_Id = #{aStuId} </if>
+		  		  <if test="aDate != null and aDate != ''"> and a_Date = #{aDate} </if>
+		  		  <if test="aCourseName != null and aCourseName != ''"> and a_Course_Name = #{aCourseName} </if>
+		  		  <if test="aPeriodId != null and aPeriodId != ''"> and a_period_Id = #{aPeriodId} </if>
+		  		  <if test="aOperator != null and aOperator != ''"> and a_Operator = #{aOperator} </if>
+		  		  <if test="aAttendanceType != null and aAttendanceType != ''"> and a_Attendance_Type = #{aAttendanceType} </if>
+		  		  <if test="aNote != null and aNote != ''"> and a_Note = #{aNote} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by a_Id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from s_stu_attendance
+		 <where>  
+		  		  <if test="aId != null and aId != ''"> and a_Id = #{aId} </if>
+		  		  <if test="aClasss != null and aClasss != ''"> and a_Classs = #{aClasss} </if>
+		  		  <if test="aStudentNo != null and aStudentNo != ''"> and a_Student_No = #{aStudentNo} </if>
+		  		  <if test="aStuId != null and aStuId != ''"> and a_Stu_Id = #{aStuId} </if>
+		  		  <if test="aDate != null and aDate != ''"> and a_Date = #{aDate} </if>
+		  		  <if test="aCourseName != null and aCourseName != ''"> and a_Course_Name = #{aCourseName} </if>
+		  		  <if test="aPeriodId != null and aPeriodId != ''"> and a_period_Id = #{aPeriodId} </if>
+		  		  <if test="aOperator != null and aOperator != ''"> and a_Operator = #{aOperator} </if>
+		  		  <if test="aAttendanceType != null and aAttendanceType != ''"> and a_Attendance_Type = #{aAttendanceType} </if>
+		  		  <if test="aNote != null and aNote != ''"> and a_Note = #{aNote} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.bootdo.kinder.entity.StuAttendanceVO">
+        <selectKey keyProperty="aId" resultType="String" order="BEFORE">
+            select replace(uuid(),'-','') from dual
+        </selectKey>
+		insert into s_stu_attendance
+		(
+			`a_Id`, 
+			`a_Classs`, 
+			`a_Student_No`, 
+			`a_Stu_Id`, 
+			`a_Date`, 
+			`a_Course_Name`, 
+			`a_period_Id`, 
+			`a_Operator`, 
+			`a_Attendance_Type`, 
+			`a_Note`
+		)
+		values
+		(
+			#{aId}, 
+			#{aClasss}, 
+			#{aStudentNo}, 
+			#{aStuId}, 
+			#{aDate}, 
+			#{aCourseName}, 
+			#{aPeriodId}, 
+			#{aOperator}, 
+			#{aAttendanceType}, 
+			#{aNote}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bootdo.kinder.entity.StuAttendanceVO">
+		update s_stu_attendance 
+		<set>
+			<if test="aClasss != null">`a_Classs` = #{aClasss}, </if>
+			<if test="aStudentNo != null">`a_Student_No` = #{aStudentNo}, </if>
+			<if test="aStuId != null">`a_Stu_Id` = #{aStuId}, </if>
+			<if test="aDate != null">`a_Date` = #{aDate}, </if>
+			<if test="aCourseName != null">`a_Course_Name` = #{aCourseName}, </if>
+			<if test="aPeriodId != null">`a_period_Id` = #{aPeriodId}, </if>
+			<if test="aOperator != null">`a_Operator` = #{aOperator}, </if>
+			<if test="aAttendanceType != null">`a_Attendance_Type` = #{aAttendanceType}, </if>
+			<if test="aNote != null">`a_Note` = #{aNote}</if>
+		</set>
+		where a_Id = #{aId}
+	</update>
+	
+	<delete id="remove">
+		delete from s_stu_attendance where a_Id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from s_stu_attendance where a_Id in 
+		<foreach item="aId" collection="array" open="(" separator="," close=")">
+			#{aId}
+		</foreach>
+	</delete>
+
+</mapper>

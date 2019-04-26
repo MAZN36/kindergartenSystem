@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+						<input id="rId" name="rId" th:value="${studentResults.rId}"  type="hidden">
+																													<div class="form-group">
+								<label class="col-sm-3 control-label">学号：</label>
+								<div class="col-sm-8">
+									<input id="rStudentNo" name="rStudentNo" th:value="${studentResults.rStudentNo}" class="form-control" type="text">
+								</div>
+							</div>
+																								<div class="form-group">
+								<label class="col-sm-3 control-label">学生编号：</label>
+								<div class="col-sm-8">
+									<input id="rStuId" name="rStuId" th:value="${studentResults.rStuId}" class="form-control" type="text">
+								</div>
+							</div>
+																								<div class="form-group">
+								<label class="col-sm-3 control-label">考试时间：</label>
+								<div class="col-sm-8">
+									<input id="rExamDate" name="rExamDate" th:value="${studentResults.rExamDate}" class="form-control" type="text">
+								</div>
+							</div>
+																								<div class="form-group">
+								<label class="col-sm-3 control-label">课程名称，引用外键：</label>
+								<div class="col-sm-8">
+									<input id="pCourse" name="pCourse" th:value="${studentResults.pCourse}" class="form-control" type="text">
+								</div>
+							</div>
+																								<div class="form-group">
+								<label class="col-sm-3 control-label">班级，引用外键：</label>
+								<div class="col-sm-8">
+									<input id="rClasss" name="rClasss" th:value="${studentResults.rClasss}" class="form-control" type="text">
+								</div>
+							</div>
+																								<div class="form-group">
+								<label class="col-sm-3 control-label">分数：</label>
+								<div class="col-sm-8">
+									<input id="rScore" name="rScore" th:value="${studentResults.rScore}" class="form-control" type="text">
+								</div>
+							</div>
+																								<div class="form-group">
+								<label class="col-sm-3 control-label">是否通过：</label>
+								<div class="col-sm-8">
+									<input id="rPass" name="rPass" th:value="${studentResults.rPass}" class="form-control" type="text">
+								</div>
+							</div>
+																								<div class="form-group">
+								<label class="col-sm-3 control-label">备注：</label>
+								<div class="col-sm-8">
+									<input id="rNote" name="rNote" th:value="${studentResults.rNote}" class="form-control" type="text">
+								</div>
+							</div>
+																		<div class="form-group">
+								<div class="col-sm-8 col-sm-offset-3">
+									<button type="submit" class="btn btn-primary">提交</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/kinder/studentResults/studentResults-edit.js">
+	</script>
+</body>
+</html>

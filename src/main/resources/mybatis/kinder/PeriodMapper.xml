@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.kinder.dao.mysql.PeriodDao">
+
+	<select id="get" resultType="com.bootdo.kinder.entity.PeriodVO">
+		select `p_Id`,`p_Classs`,`p_Course`,`p_StartDate`,`p_End_Date`,`p_Note` from s_period where p_Id = #{value}
+	</select>
+
+	<select id="list" resultType="com.bootdo.kinder.entity.PeriodVO">
+		select `p_Id`,`p_Classs`,`p_Course`,`p_StartDate`,`p_End_Date`,`p_Note` from s_period
+        <where>  
+		  		  <if test="pId != null and pId != ''"> and p_Id = #{pId} </if>
+		  		  <if test="pClasss != null and pClasss != ''"> and p_Classs = #{pClasss} </if>
+		  		  <if test="pCourse != null and pCourse != ''"> and p_Course = #{pCourse} </if>
+		  		  <if test="pStartdate != null and pStartdate != ''"> and p_StartDate = #{pStartdate} </if>
+		  		  <if test="pEndDate != null and pEndDate != ''"> and p_End_Date = #{pEndDate} </if>
+		  		  <if test="pNote != null and pNote != ''"> and p_Note = #{pNote} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by p_Id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from s_period
+		 <where>  
+		  		  <if test="pId != null and pId != ''"> and p_Id = #{pId} </if>
+		  		  <if test="pClasss != null and pClasss != ''"> and p_Classs = #{pClasss} </if>
+		  		  <if test="pCourse != null and pCourse != ''"> and p_Course = #{pCourse} </if>
+		  		  <if test="pStartdate != null and pStartdate != ''"> and p_StartDate = #{pStartdate} </if>
+		  		  <if test="pEndDate != null and pEndDate != ''"> and p_End_Date = #{pEndDate} </if>
+		  		  <if test="pNote != null and pNote != ''"> and p_Note = #{pNote} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.bootdo.kinder.entity.PeriodVO">
+        <selectKey keyProperty="pId" resultType="String" order="BEFORE">
+            select replace(uuid(),'-','') from dual
+        </selectKey>
+		insert into s_period
+		(
+			`p_Id`, 
+			`p_Classs`, 
+			`p_Course`, 
+			`p_StartDate`, 
+			`p_End_Date`, 
+			`p_Note`
+		)
+		values
+		(
+			#{pId}, 
+			#{pClasss}, 
+			#{pCourse}, 
+			#{pStartdate}, 
+			#{pEndDate}, 
+			#{pNote}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bootdo.kinder.entity.PeriodVO">
+		update s_period 
+		<set>
+			<if test="pClasss != null">`p_Classs` = #{pClasss}, </if>
+			<if test="pCourse != null">`p_Course` = #{pCourse}, </if>
+			<if test="pStartdate != null">`p_StartDate` = #{pStartdate}, </if>
+			<if test="pEndDate != null">`p_End_Date` = #{pEndDate}, </if>
+			<if test="pNote != null">`p_Note` = #{pNote}</if>
+		</set>
+		where p_Id = #{pId}
+	</update>
+	
+	<delete id="remove">
+		delete from s_period where p_Id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from s_period where p_Id in 
+		<foreach item="pId" collection="array" open="(" separator="," close=")">
+			#{pId}
+		</foreach>
+	</delete>
+
+</mapper>

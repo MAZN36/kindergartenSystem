@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+						<input id="stuId" name="stuId" th:value="${studentInfo.stuId}"  type="hidden">
+																													<div class="form-group">
+								<label class="col-sm-3 control-label">关联用户表：</label>
+								<div class="col-sm-8">
+									<input id="sUserid" name="sUserid" th:value="${studentInfo.sUserid}" class="form-control" type="text">
+								</div>
+							</div>
+																								<div class="form-group">
+								<label class="col-sm-3 control-label">学号：</label>
+								<div class="col-sm-8">
+									<input id="sTudentid" name="sTudentid" th:value="${studentInfo.sTudentid}" class="form-control" type="text">
+								</div>
+							</div>
+																								<div class="form-group">
+								<label class="col-sm-3 control-label">班级：</label>
+								<div class="col-sm-8">
+									<input id="sClasss" name="sClasss" th:value="${studentInfo.sClasss}" class="form-control" type="text">
+								</div>
+							</div>
+																								<div class="form-group">
+								<label class="col-sm-3 control-label">学生姓名：</label>
+								<div class="col-sm-8">
+									<input id="sName" name="sName" th:value="${studentInfo.sName}" class="form-control" type="text">
+								</div>
+							</div>
+																								<div class="form-group">
+								<label class="col-sm-3 control-label">学生性别 1:男 0:女：</label>
+								<div class="col-sm-8">
+									<input id="sSex" name="sSex" th:value="${studentInfo.sSex}" class="form-control" type="text">
+								</div>
+							</div>
+																								<div class="form-group">
+								<label class="col-sm-3 control-label">民族：</label>
+								<div class="col-sm-8">
+									<input id="sNational" name="sNational" th:value="${studentInfo.sNational}" class="form-control" type="text">
+								</div>
+							</div>
+																								<div class="form-group">
+								<label class="col-sm-3 control-label">学生出生日期：</label>
+								<div class="col-sm-8">
+									<input id="sDate" name="sDate" th:value="${studentInfo.sDate}" class="form-control" type="text">
+								</div>
+							</div>
+																								<div class="form-group">
+								<label class="col-sm-3 control-label">学生籍贯：</label>
+								<div class="col-sm-8">
+									<input id="sNativePlace" name="sNativePlace" th:value="${studentInfo.sNativePlace}" class="form-control" type="text">
+								</div>
+							</div>
+																								<div class="form-group">
+								<label class="col-sm-3 control-label">家庭住址：</label>
+								<div class="col-sm-8">
+									<input id="sAddress" name="sAddress" th:value="${studentInfo.sAddress}" class="form-control" type="text">
+								</div>
+							</div>
+																								<div class="form-group">
+								<label class="col-sm-3 control-label">家长姓名：</label>
+								<div class="col-sm-8">
+									<input id="sParentsName" name="sParentsName" th:value="${studentInfo.sParentsName}" class="form-control" type="text">
+								</div>
+							</div>
+																								<div class="form-group">
+								<label class="col-sm-3 control-label">家长号码：</label>
+								<div class="col-sm-8">
+									<input id="sParentsNumber" name="sParentsNumber" th:value="${studentInfo.sParentsNumber}" class="form-control" type="text">
+								</div>
+							</div>
+																								<div class="form-group">
+								<label class="col-sm-3 control-label">手机号码：</label>
+								<div class="col-sm-8">
+									<input id="sNumber" name="sNumber" th:value="${studentInfo.sNumber}" class="form-control" type="text">
+								</div>
+							</div>
+																								<div class="form-group">
+								<label class="col-sm-3 control-label">入学时间：</label>
+								<div class="col-sm-8">
+									<input id="sEntranceDate" name="sEntranceDate" th:value="${studentInfo.sEntranceDate}" class="form-control" type="text">
+								</div>
+							</div>
+																								<div class="form-group">
+								<label class="col-sm-3 control-label">QQ号码：</label>
+								<div class="col-sm-8">
+									<input id="sQq" name="sQq" th:value="${studentInfo.sQq}" class="form-control" type="text">
+								</div>
+							</div>
+																								<div class="form-group">
+								<label class="col-sm-3 control-label">状态：</label>
+								<div class="col-sm-8">
+									<input id="sState" name="sState" th:value="${studentInfo.sState}" class="form-control" type="text">
+								</div>
+							</div>
+																								<div class="form-group">
+								<label class="col-sm-3 control-label">备注：</label>
+								<div class="col-sm-8">
+									<input id="sNote" name="sNote" th:value="${studentInfo.sNote}" class="form-control" type="text">
+								</div>
+							</div>
+																		<div class="form-group">
+								<div class="col-sm-8 col-sm-offset-3">
+									<button type="submit" class="btn btn-primary">提交</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/kinder/studentInfo/studentInfo-edit.js">
+	</script>
+</body>
+</html>

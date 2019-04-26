@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.kinder.dao.mysql.SchoolLunchDao">
+
+	<select id="get" resultType="com.bootdo.kinder.entity.SchoolLunchVO">
+		select `sl_id`,`sl_name`,`a_Student_No`,`a_Date`,`a_Note` from s_school_lunch where sl_id = #{value}
+	</select>
+
+	<select id="list" resultType="com.bootdo.kinder.entity.SchoolLunchVO">
+		select `sl_id`,`sl_name`,`a_Student_No`,`a_Date`,`a_Note` from s_school_lunch
+        <where>  
+		  		  <if test="slId != null and slId != ''"> and sl_id = #{slId} </if>
+		  		  <if test="slName != null and slName != ''"> and sl_name = #{slName} </if>
+		  		  <if test="aStudentNo != null and aStudentNo != ''"> and a_Student_No = #{aStudentNo} </if>
+		  		  <if test="aDate != null and aDate != ''"> and a_Date = #{aDate} </if>
+		  		  <if test="aNote != null and aNote != ''"> and a_Note = #{aNote} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by sl_id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from s_school_lunch
+		 <where>  
+		  		  <if test="slId != null and slId != ''"> and sl_id = #{slId} </if>
+		  		  <if test="slName != null and slName != ''"> and sl_name = #{slName} </if>
+		  		  <if test="aStudentNo != null and aStudentNo != ''"> and a_Student_No = #{aStudentNo} </if>
+		  		  <if test="aDate != null and aDate != ''"> and a_Date = #{aDate} </if>
+		  		  <if test="aNote != null and aNote != ''"> and a_Note = #{aNote} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.bootdo.kinder.entity.SchoolLunchVO">
+        <selectKey keyProperty="slId" resultType="String" order="BEFORE">
+            select replace(uuid(),'-','') from dual
+        </selectKey>
+		insert into s_school_lunch
+		(
+			`sl_id`, 
+			`sl_name`, 
+			`a_Student_No`, 
+			`a_Date`, 
+			`a_Note`
+		)
+		values
+		(
+			#{slId}, 
+			#{slName}, 
+			#{aStudentNo}, 
+			#{aDate}, 
+			#{aNote}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bootdo.kinder.entity.SchoolLunchVO">
+		update s_school_lunch 
+		<set>
+			<if test="slName != null">`sl_name` = #{slName}, </if>
+			<if test="aStudentNo != null">`a_Student_No` = #{aStudentNo}, </if>
+			<if test="aDate != null">`a_Date` = #{aDate}, </if>
+			<if test="aNote != null">`a_Note` = #{aNote}</if>
+		</set>
+		where sl_id = #{slId}
+	</update>
+	
+	<delete id="remove">
+		delete from s_school_lunch where sl_id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from s_school_lunch where sl_id in 
+		<foreach item="slId" collection="array" open="(" separator="," close=")">
+			#{slId}
+		</foreach>
+	</delete>
+
+</mapper>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.kinder.dao.mysql.StudentResultsDao">
+
+	<select id="get" resultType="com.bootdo.kinder.entity.StudentResultsVO">
+		select `r_Id`,`r_Student_No`,`r_Stu_Id`,`r_Exam_Date`,`p_Course`,`r_Classs`,`r_Score`,`r_Pass`,`r_Note` from s_student_results where r_Id = #{value}
+	</select>
+
+	<select id="list" resultType="com.bootdo.kinder.entity.StudentResultsVO">
+		select `r_Id`,`r_Student_No`,`r_Stu_Id`,`r_Exam_Date`,`p_Course`,`r_Classs`,`r_Score`,`r_Pass`,`r_Note` from s_student_results
+        <where>  
+		  		  <if test="rId != null and rId != ''"> and r_Id = #{rId} </if>
+		  		  <if test="rStudentNo != null and rStudentNo != ''"> and r_Student_No = #{rStudentNo} </if>
+		  		  <if test="rStuId != null and rStuId != ''"> and r_Stu_Id = #{rStuId} </if>
+		  		  <if test="rExamDate != null and rExamDate != ''"> and r_Exam_Date = #{rExamDate} </if>
+		  		  <if test="pCourse != null and pCourse != ''"> and p_Course = #{pCourse} </if>
+		  		  <if test="rClasss != null and rClasss != ''"> and r_Classs = #{rClasss} </if>
+		  		  <if test="rScore != null and rScore != ''"> and r_Score = #{rScore} </if>
+		  		  <if test="rPass != null and rPass != ''"> and r_Pass = #{rPass} </if>
+		  		  <if test="rNote != null and rNote != ''"> and r_Note = #{rNote} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by r_Id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from s_student_results
+		 <where>  
+		  		  <if test="rId != null and rId != ''"> and r_Id = #{rId} </if>
+		  		  <if test="rStudentNo != null and rStudentNo != ''"> and r_Student_No = #{rStudentNo} </if>
+		  		  <if test="rStuId != null and rStuId != ''"> and r_Stu_Id = #{rStuId} </if>
+		  		  <if test="rExamDate != null and rExamDate != ''"> and r_Exam_Date = #{rExamDate} </if>
+		  		  <if test="pCourse != null and pCourse != ''"> and p_Course = #{pCourse} </if>
+		  		  <if test="rClasss != null and rClasss != ''"> and r_Classs = #{rClasss} </if>
+		  		  <if test="rScore != null and rScore != ''"> and r_Score = #{rScore} </if>
+		  		  <if test="rPass != null and rPass != ''"> and r_Pass = #{rPass} </if>
+		  		  <if test="rNote != null and rNote != ''"> and r_Note = #{rNote} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.bootdo.kinder.entity.StudentResultsVO">
+        <selectKey keyProperty="rId" resultType="String" order="BEFORE">
+            select replace(uuid(),'-','') from dual
+        </selectKey>
+		insert into s_student_results
+		(
+			`r_Id`, 
+			`r_Student_No`, 
+			`r_Stu_Id`, 
+			`r_Exam_Date`, 
+			`p_Course`, 
+			`r_Classs`, 
+			`r_Score`, 
+			`r_Pass`, 
+			`r_Note`
+		)
+		values
+		(
+			#{rId}, 
+			#{rStudentNo}, 
+			#{rStuId}, 
+			#{rExamDate}, 
+			#{pCourse}, 
+			#{rClasss}, 
+			#{rScore}, 
+			#{rPass}, 
+			#{rNote}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bootdo.kinder.entity.StudentResultsVO">
+		update s_student_results 
+		<set>
+			<if test="rStudentNo != null">`r_Student_No` = #{rStudentNo}, </if>
+			<if test="rStuId != null">`r_Stu_Id` = #{rStuId}, </if>
+			<if test="rExamDate != null">`r_Exam_Date` = #{rExamDate}, </if>
+			<if test="pCourse != null">`p_Course` = #{pCourse}, </if>
+			<if test="rClasss != null">`r_Classs` = #{rClasss}, </if>
+			<if test="rScore != null">`r_Score` = #{rScore}, </if>
+			<if test="rPass != null">`r_Pass` = #{rPass}, </if>
+			<if test="rNote != null">`r_Note` = #{rNote}</if>
+		</set>
+		where r_Id = #{rId}
+	</update>
+	
+	<delete id="remove">
+		delete from s_student_results where r_Id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from s_student_results where r_Id in 
+		<foreach item="rId" collection="array" open="(" separator="," close=")">
+			#{rId}
+		</foreach>
+	</delete>
+
+</mapper>

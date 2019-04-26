@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="gray-bg">
+	<div class="wrapper wrapper-content ">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<form class="form-horizontal m-t" id="signupForm">
+						<input id="pId" name="pId" th:value="${period.pId}"  type="hidden">
+																													<div class="form-group">
+								<label class="col-sm-3 control-label">班级，引用外键：</label>
+								<div class="col-sm-8">
+									<input id="pClasss" name="pClasss" th:value="${period.pClasss}" class="form-control" type="text">
+								</div>
+							</div>
+																								<div class="form-group">
+								<label class="col-sm-3 control-label">课程名称，引用外键：</label>
+								<div class="col-sm-8">
+									<input id="pCourse" name="pCourse" th:value="${period.pCourse}" class="form-control" type="text">
+								</div>
+							</div>
+																								<div class="form-group">
+								<label class="col-sm-3 control-label">开始时间：</label>
+								<div class="col-sm-8">
+									<input id="pStartdate" name="pStartdate" th:value="${period.pStartdate}" class="form-control" type="text">
+								</div>
+							</div>
+																								<div class="form-group">
+								<label class="col-sm-3 control-label">结束时间：</label>
+								<div class="col-sm-8">
+									<input id="pEndDate" name="pEndDate" th:value="${period.pEndDate}" class="form-control" type="text">
+								</div>
+							</div>
+																								<div class="form-group">
+								<label class="col-sm-3 control-label">备注：</label>
+								<div class="col-sm-8">
+									<input id="pNote" name="pNote" th:value="${period.pNote}" class="form-control" type="text">
+								</div>
+							</div>
+																		<div class="form-group">
+								<div class="col-sm-8 col-sm-offset-3">
+									<button type="submit" class="btn btn-primary">提交</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+	</div>
+	</div>
+	<div th:include="include::footer"></div>
+	<script type="text/javascript" src="/js/appjs/kinder/period/period-edit.js">
+	</script>
+</body>
+</html>
