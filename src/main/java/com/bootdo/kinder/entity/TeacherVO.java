@@ -1,5 +1,7 @@
 package com.bootdo.kinder.entity;
 
+import com.bootdo.system.domain.UserDO;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -23,6 +25,8 @@ public class TeacherVO implements Serializable {
 		private String tJnumber;
 			//职位
 		private String tPosition;
+		//职位名称
+		private String tPositionName;
 			//民族
 		private String tNation;
 			//政治面貌
@@ -37,6 +41,8 @@ public class TeacherVO implements Serializable {
 		private String tState;
 			//备注
 		private String tNote;
+
+		private UserDO user;
 	
 		/**
 	 * 设置：id
@@ -169,5 +175,21 @@ public class TeacherVO implements Serializable {
 	 */
 	public String getTNote() {
 		return tNote;
+	}
+
+	public UserDO getUser() {
+		return user;
+	}
+
+	public void setUser(UserDO user) {
+		this.user = user;
+	}
+
+	public String gettPositionName() {
+		return tPositionName;
+	}
+
+	public void settPositionName(String tPositionName) {
+		this.tPositionName = tPositionName;
 	}
 }

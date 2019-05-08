@@ -22,6 +22,15 @@ public class Query extends LinkedHashMap<String, Object> {
 		this.put("page", offset / limit + 1);
 		this.put("limit", limit);
 	}
+	public Query(Map<String, Object> params,int pageNo, int pageSize){
+		this.putAll(params);
+		pageNo = (pageNo-1) < 0 ? 0 : pageNo-1;
+		this.offset = pageNo*pageSize;
+		this.limit = pageSize;
+		this.put("offset", offset);
+		this.put("page", offset / limit + 1);
+		this.put("limit", limit);
+	}
 
 	public int getOffset() {
 		return offset;

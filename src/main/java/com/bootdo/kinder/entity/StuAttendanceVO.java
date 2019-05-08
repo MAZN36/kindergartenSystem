@@ -19,6 +19,7 @@ public class StuAttendanceVO implements Serializable {
 		private String aId;
 			//班级，引用外键
 		private String aClasss;
+		private String classesName;
 			//学号
 		private String aStudentNo;
 			//学生编号
@@ -27,6 +28,7 @@ public class StuAttendanceVO implements Serializable {
 		private Date aDate;
 			//课程名称
 		private String aCourseName;
+		private String courseName;
 			//哪节课
 		private String aPeriodId;
 			//操作员/老师id
@@ -155,5 +157,21 @@ public class StuAttendanceVO implements Serializable {
 	 */
 	public String getANote() {
 		return aNote;
+	}
+
+	public String getClassesName() {
+		return classesName;
+	}
+
+	public void setClassesName(String classesName) {
+		this.classesName = classesName;
+	}
+
+	public String getCourseName() {
+		return courseName;
+	}
+
+	public void setCourseName(String courseName) {
+		this.courseName = courseName;
 	}
 }

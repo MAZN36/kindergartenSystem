@@ -1,5 +1,7 @@
 package com.bootdo.kinder.service;
 
+import com.bootdo.common.utils.PageUtils;
+import com.bootdo.common.utils.Query;
 import com.bootdo.kinder.entity.StudentResultsVO;
 
 import java.util.List;
@@ -27,4 +29,6 @@ public interface StudentResultsService {
 	int remove(String rId);
 	
 	int batchRemove(String[] rIds);
+
+	public PageUtils findPage(Query query);
 }

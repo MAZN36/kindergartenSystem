@@ -3,26 +3,42 @@
 
 <mapper namespace="com.bootdo.kinder.dao.mysql.PeriodDao">
 
+	<sql id="periodColumns">
+		 a.p_Id, a.p_Classs, a.p_Course, a.p_StartDate, a.p_End_Date, a.p_Note,b.course_name AS courseName,c.name AS classesName
+	</sql>
+
+	<sql id="periodJoins">
+		left join s_course b on a.p_Course=b.course_id
+		LEFT JOIN sys_dept c on c.dept_id=a.p_Classs
+	</sql>
+
 	<select id="get" resultType="com.bootdo.kinder.entity.PeriodVO">
-		select `p_Id`,`p_Classs`,`p_Course`,`p_StartDate`,`p_End_Date`,`p_Note` from s_period where p_Id = #{value}
+		select
+		 <include refid="periodColumns"/>
+		 from s_period a
+		 <include refid="periodJoins"/>
+		 where a.p_Id = #{value}
 	</select>
 
 	<select id="list" resultType="com.bootdo.kinder.entity.PeriodVO">
-		select `p_Id`,`p_Classs`,`p_Course`,`p_StartDate`,`p_End_Date`,`p_Note` from s_period
+		select
+		<include refid="periodColumns"/>
+		 from s_period a
+		<include refid="periodJoins"/>
         <where>  
-		  		  <if test="pId != null and pId != ''"> and p_Id = #{pId} </if>
-		  		  <if test="pClasss != null and pClasss != ''"> and p_Classs = #{pClasss} </if>
-		  		  <if test="pCourse != null and pCourse != ''"> and p_Course = #{pCourse} </if>
-		  		  <if test="pStartdate != null and pStartdate != ''"> and p_StartDate = #{pStartdate} </if>
-		  		  <if test="pEndDate != null and pEndDate != ''"> and p_End_Date = #{pEndDate} </if>
-		  		  <if test="pNote != null and pNote != ''"> and p_Note = #{pNote} </if>
+		  		  <if test="pId != null and pId != ''"> and a.p_Id = #{pId} </if>
+		  		  <if test="pClasss != null and pClasss != ''"> and a.p_Classs = #{pClasss} </if>
+		  		  <if test="pCourse != null and pCourse != ''"> and a.p_Course = #{pCourse} </if>
+		  		  <if test="pStartdate != null and pStartdate != ''"> and date_format(a.p_StartDate,'%Y-%m-%d') = date_format(#{pStartdate},'%Y-%m-%d')</if>
+		  		  <if test="pEndDate != null and pEndDate != ''"> and a.p_End_Date = #{pEndDate} </if>
+		  		  <if test="pNote != null and pNote != ''"> and a.p_Note = #{pNote} </if>
 		  		</where>
         <choose>
             <when test="sort != null and sort.trim() != ''">
                 order by ${sort} ${order}
             </when>
 			<otherwise>
-                order by p_Id desc
+                order by a.p_Classs,a.p_StartDate
 			</otherwise>
         </choose>
 		<if test="offset != null and limit != null">
@@ -69,11 +85,11 @@
 	<update id="update" parameterType="com.bootdo.kinder.entity.PeriodVO">
 		update s_period 
 		<set>
-			<if test="pClasss != null">`p_Classs` = #{pClasss}, </if>
-			<if test="pCourse != null">`p_Course` = #{pCourse}, </if>
+			<if test="pClasss != null and pClasss != ''">`p_Classs` = #{pClasss}, </if>
+			<if test="pCourse != null and pCourse!=''">`p_Course` = #{pCourse}, </if>
 			<if test="pStartdate != null">`p_StartDate` = #{pStartdate}, </if>
 			<if test="pEndDate != null">`p_End_Date` = #{pEndDate}, </if>
-			<if test="pNote != null">`p_Note` = #{pNote}</if>
+			<if test="pNote != null and pNote != ''">`p_Note` = #{pNote}</if>
 		</set>
 		where p_Id = #{pId}
 	</update>

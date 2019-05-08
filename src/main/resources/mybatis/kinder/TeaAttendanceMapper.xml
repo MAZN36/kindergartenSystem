@@ -3,18 +3,22 @@
 
 <mapper namespace="com.bootdo.kinder.dao.mysql.TeaAttendanceDao">
 
+
+
+
 	<select id="get" resultType="com.bootdo.kinder.entity.TeaAttendanceVO">
-		select `a_Id`,`a_Student_No`,`a_Tea_Id`,`a_Start_Date`,`a_End_Date`,`a_Attendance_Type`,`a_Note` from s_tea_attendance where a_Id = #{value}
+		select `a_Id`,`a_tea_No`,`a_Tea_Id`,`a_Start_Date`,`a_End_Date`,`a_Attendance_Type`,`a_Note` from s_tea_attendance where a_Id = #{value}
 	</select>
 
 	<select id="list" resultType="com.bootdo.kinder.entity.TeaAttendanceVO">
-		select `a_Id`,`a_Student_No`,`a_Tea_Id`,`a_Start_Date`,`a_End_Date`,`a_Attendance_Type`,`a_Note` from s_tea_attendance
+		select `a_Id`,`a_tea_No`,`a_Tea_Id`,`a_Start_Date`,`a_End_Date`,`a_Attendance_Type`,`a_Note` from s_tea_attendance
         <where>  
 		  		  <if test="aId != null and aId != ''"> and a_Id = #{aId} </if>
-		  		  <if test="aStudentNo != null and aStudentNo != ''"> and a_Student_No = #{aStudentNo} </if>
+		  		  <if test="aTeaNo != null and aTeaNo != ''"> and a_tea_No = #{aTeaNo} </if>
 		  		  <if test="aTeaId != null and aTeaId != ''"> and a_Tea_Id = #{aTeaId} </if>
-		  		  <if test="aStartDate != null and aStartDate != ''"> and a_Start_Date = #{aStartDate} </if>
-		  		  <if test="aEndDate != null and aEndDate != ''"> and a_End_Date = #{aEndDate} </if>
+		  		  <if test="aStartDate != null and aStartDate != ''"> and date_format(a_Start_Date,'%Y-%m-%d') = #{aStartDate} </if>
+		  		  <if test="aDate != null and aDate != ''"> and (date_format(a_Start_Date,'%Y-%m-%d') = #{aDate} OR date_format(a_End_Date,'%Y-%m-%d') = #{aDate}) </if>
+		  		  <if test="aEndDate != null and aEndDate != ''"> and date_format(a_End_Date,'%Y-%m-%d') = #{aEndDate} </if>
 		  		  <if test="aAttendanceType != null and aAttendanceType != ''"> and a_Attendance_Type = #{aAttendanceType} </if>
 		  		  <if test="aNote != null and aNote != ''"> and a_Note = #{aNote} </if>
 		  		</where>
@@ -35,7 +39,7 @@
 		select count(*) from s_tea_attendance
 		 <where>  
 		  		  <if test="aId != null and aId != ''"> and a_Id = #{aId} </if>
-		  		  <if test="aStudentNo != null and aStudentNo != ''"> and a_Student_No = #{aStudentNo} </if>
+		  		  <if test="aTeaNo != null and aTeaNo != ''"> and a_tea_No = #{aTeaNo} </if>
 		  		  <if test="aTeaId != null and aTeaId != ''"> and a_Tea_Id = #{aTeaId} </if>
 		  		  <if test="aStartDate != null and aStartDate != ''"> and a_Start_Date = #{aStartDate} </if>
 		  		  <if test="aEndDate != null and aEndDate != ''"> and a_End_Date = #{aEndDate} </if>
@@ -51,7 +55,7 @@
 		insert into s_tea_attendance
 		(
 			`a_Id`, 
-			`a_Student_No`, 
+			`a_tea_No`, 
 			`a_Tea_Id`, 
 			`a_Start_Date`, 
 			`a_End_Date`, 
@@ -61,7 +65,7 @@
 		values
 		(
 			#{aId}, 
-			#{aStudentNo}, 
+			#{aTeaNo}, 
 			#{aTeaId}, 
 			#{aStartDate}, 
 			#{aEndDate}, 
@@ -73,7 +77,7 @@
 	<update id="update" parameterType="com.bootdo.kinder.entity.TeaAttendanceVO">
 		update s_tea_attendance 
 		<set>
-			<if test="aStudentNo != null">`a_Student_No` = #{aStudentNo}, </if>
+			<if test="aTeaNo != null">`a_tea_No` = #{aTeaNo}, </if>
 			<if test="aTeaId != null">`a_Tea_Id` = #{aTeaId}, </if>
 			<if test="aStartDate != null">`a_Start_Date` = #{aStartDate}, </if>
 			<if test="aEndDate != null">`a_End_Date` = #{aEndDate}, </if>

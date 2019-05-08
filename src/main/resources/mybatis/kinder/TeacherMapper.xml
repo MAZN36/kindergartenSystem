@@ -3,24 +3,81 @@
 
 <mapper namespace="com.bootdo.kinder.dao.mysql.TeacherDao">
 
+	<sql id="teacherColumns">
+	   a.t_id,
+       a.t_userId,
+       a.t_JNumber,
+       a.t_Position,
+       a.t_Nation,
+       a.t_Political,
+       a.t_card,
+       a.t_Education,
+       a.t_Home,
+       a.t_State,
+       a.t_Note,
+       u.user_id AS "user.userId",
+       u.username AS "user.username",
+       u.name AS "user.name",
+       u.password AS "user.password",
+       u.dept_id AS "user.deptId",
+       u.email AS "user.email",
+       u.mobile AS "user.mobile",
+       u.status AS "user.status",
+       u.user_id_create AS "user.userIdCreate",
+       u.gmt_create AS "user.gmtCreate",
+       u.gmt_modified AS "user.gmtModified",
+       u.sex AS "user.sex",
+       u.birth AS "user.birth",
+       u.pic_id AS "user.picId",
+       u.live_address AS "user.liveAddress",
+       u.hobby AS "user.hobby",
+       u.province AS "user.province",
+       u.city AS "user.city",
+       u.district AS "user.district",
+       u.age AS "user.age",
+       s.pName AS "tPositionName",
+       d.dept_id AS "user.deptId",
+       d.name AS "user.deptName"
+	</sql>
+
+	<sql id="teacherJoins">
+		left join sys_user u on a.t_userId = u.user_id
+		left join s_position s on s.pid = a.t_Position
+		left join sys_dept d on d.dept_id = u.dept_id
+		left join sys_user_role r on r.user_id = a.t_userId
+         left join sys_role sr on sr.role_id = r.role_id
+	</sql>
+
 	<select id="get" resultType="com.bootdo.kinder.entity.TeacherVO">
-		select `t_id`,`t_userId`,`t_JNumber`,`t_Position`,`t_Nation`,`t_Political`,`t_card`,`t_Education`,`t_Home`,`t_State`,`t_Note` from s_teacher where t_id = #{value}
+		select
+		 <include refid="teacherColumns"/>
+		 from s_teacher a
+		<include refid="teacherJoins"/>
+		 where t_id = #{value} OR t_userId = #{value}
 	</select>
 
 	<select id="list" resultType="com.bootdo.kinder.entity.TeacherVO">
-		select `t_id`,`t_userId`,`t_JNumber`,`t_Position`,`t_Nation`,`t_Political`,`t_card`,`t_Education`,`t_Home`,`t_State`,`t_Note` from s_teacher
-        <where>  
-		  		  <if test="tId != null and tId != ''"> and t_id = #{tId} </if>
-		  		  <if test="tUserid != null and tUserid != ''"> and t_userId = #{tUserid} </if>
-		  		  <if test="tJnumber != null and tJnumber != ''"> and t_JNumber = #{tJnumber} </if>
-		  		  <if test="tPosition != null and tPosition != ''"> and t_Position = #{tPosition} </if>
-		  		  <if test="tNation != null and tNation != ''"> and t_Nation = #{tNation} </if>
-		  		  <if test="tPolitical != null and tPolitical != ''"> and t_Political = #{tPolitical} </if>
-		  		  <if test="tCard != null and tCard != ''"> and t_card = #{tCard} </if>
-		  		  <if test="tEducation != null and tEducation != ''"> and t_Education = #{tEducation} </if>
-		  		  <if test="tHome != null and tHome != ''"> and t_Home = #{tHome} </if>
-		  		  <if test="tState != null and tState != ''"> and t_State = #{tState} </if>
-		  		  <if test="tNote != null and tNote != ''"> and t_Note = #{tNote} </if>
+		select
+		<include refid="teacherColumns"/>
+		from s_teacher a
+		<include refid="teacherJoins"/>
+        <where>
+			      sr.role_sign='teacher'
+		  		  <if test="tId != null and tId != ''"> and a.t_id = #{tId} </if>
+		  		  <if test="tUserid != null and tUserid != ''"> and a.t_userId = #{tUserid} </if>
+		  		  <if test="tJnumber != null and tJnumber != ''"> and a.t_JNumber = #{tJnumber} </if>
+		  		  <if test="tPosition != null and tPosition != ''"> and a.t_Position = #{tPosition} </if>
+		  		  <if test="tNation != null and tNation != ''"> and a.t_Nation = #{tNation} </if>
+		  		  <if test="tPolitical != null and tPolitical != ''"> and a.t_Political = #{tPolitical} </if>
+		  		  <if test="tCard != null and tCard != ''"> and a.t_card = #{tCard} </if>
+		  		  <if test="tEducation != null and tEducation != ''"> and a.t_Education = #{tEducation} </if>
+		  		  <if test="tHome != null and tHome != ''"> and a.t_Home = #{tHome} </if>
+		  		  <if test="tState != null and tState != ''"> and a.t_State = #{tState} </if>
+		  		  <if test="tNote != null and tNote != ''"> and a.t_Note = #{tNote} </if>
+				  <if test="deptId != null and deptId != ''"> and u.dept_id = #{deptId} </if>
+				  <if test="name != null and name != ''"> and u.name = #{name} </if>
+				  <if test="mobile != null and mobile != ''"> and u.mobile = #{mobile} </if>
+				  <if test="status != null and status != ''"> and u.status = #{status} </if>
 		  		</where>
         <choose>
             <when test="sort != null and sort.trim() != ''">
@@ -58,17 +115,17 @@
         </selectKey>
 		insert into s_teacher
 		(
-			`t_id`, 
-			`t_userId`, 
-			`t_JNumber`, 
-			`t_Position`, 
-			`t_Nation`, 
-			`t_Political`, 
-			`t_card`, 
-			`t_Education`, 
-			`t_Home`, 
-			`t_State`, 
-			`t_Note`
+			t_id, 
+			t_userId, 
+			t_JNumber, 
+			t_Position, 
+			t_Nation, 
+			t_Political, 
+			t_card, 
+			t_Education, 
+			t_Home, 
+			t_State, 
+			t_Note
 		)
 		values
 		(
@@ -89,16 +146,16 @@
 	<update id="update" parameterType="com.bootdo.kinder.entity.TeacherVO">
 		update s_teacher 
 		<set>
-			<if test="tUserid != null">`t_userId` = #{tUserid}, </if>
-			<if test="tJnumber != null">`t_JNumber` = #{tJnumber}, </if>
-			<if test="tPosition != null">`t_Position` = #{tPosition}, </if>
-			<if test="tNation != null">`t_Nation` = #{tNation}, </if>
-			<if test="tPolitical != null">`t_Political` = #{tPolitical}, </if>
-			<if test="tCard != null">`t_card` = #{tCard}, </if>
-			<if test="tEducation != null">`t_Education` = #{tEducation}, </if>
-			<if test="tHome != null">`t_Home` = #{tHome}, </if>
-			<if test="tState != null">`t_State` = #{tState}, </if>
-			<if test="tNote != null">`t_Note` = #{tNote}</if>
+			<if test="tUserid != null">t_userId = #{tUserid}, </if>
+			<if test="tJnumber != null">t_JNumber = #{tJnumber}, </if>
+			<if test="tPosition != null">t_Position = #{tPosition}, </if>
+			<if test="tNation != null">t_Nation = #{tNation}, </if>
+			<if test="tPolitical != null">t_Political = #{tPolitical}, </if>
+			<if test="tCard != null">t_card = #{tCard}, </if>
+			<if test="tEducation != null">t_Education = #{tEducation}, </if>
+			<if test="tHome != null">t_Home = #{tHome}, </if>
+			<if test="tState != null">t_State = #{tState}, </if>
+			<if test="tNote != null">t_Note = #{tNote}</if>
 		</set>
 		where t_id = #{tId}
 	</update>

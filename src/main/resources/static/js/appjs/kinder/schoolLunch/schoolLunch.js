@@ -56,7 +56,7 @@ function load() {
 									title : '菜品名称' 
 								},
 																{
-									field : 'astudentNo',
+									field : 'slTaste',
 									title : '菜品口味' 
 								},
 																{

@@ -3,30 +3,46 @@
 
 <mapper namespace="com.bootdo.kinder.dao.mysql.StuAttendanceDao">
 
+	<sql id="stuAttendanceColumns">
+		 a.a_Id,a.a_Classs,a.a_Student_No,a.a_Stu_Id,a.a_Date,a.a_Course_Name,a.a_period_Id,a.a_Operator,a.a_Attendance_Type,a.a_Note,c.name AS classesName,b.course_name AS courseName
+	</sql>
+
+	<sql id="stuAttendanceJoins">
+		left join s_course b on a.a_Course_Name=b.course_id
+		left join sys_dept c on c.dept_id = a.a_Classs
+	</sql>
+
 	<select id="get" resultType="com.bootdo.kinder.entity.StuAttendanceVO">
-		select `a_Id`,`a_Classs`,`a_Student_No`,`a_Stu_Id`,`a_Date`,`a_Course_Name`,`a_period_Id`,`a_Operator`,`a_Attendance_Type`,`a_Note` from s_stu_attendance where a_Id = #{value}
+		select
+		 <include refid="stuAttendanceColumns"/>
+		 from s_stu_attendance a
+		 <include refid="stuAttendanceJoins"/>
+		 where a.a_Id = #{value}
 	</select>
 
 	<select id="list" resultType="com.bootdo.kinder.entity.StuAttendanceVO">
-		select `a_Id`,`a_Classs`,`a_Student_No`,`a_Stu_Id`,`a_Date`,`a_Course_Name`,`a_period_Id`,`a_Operator`,`a_Attendance_Type`,`a_Note` from s_stu_attendance
+		select
+		<include refid="stuAttendanceColumns"/>
+		 from s_stu_attendance a
+		<include refid="stuAttendanceJoins"/>
         <where>  
-		  		  <if test="aId != null and aId != ''"> and a_Id = #{aId} </if>
-		  		  <if test="aClasss != null and aClasss != ''"> and a_Classs = #{aClasss} </if>
-		  		  <if test="aStudentNo != null and aStudentNo != ''"> and a_Student_No = #{aStudentNo} </if>
-		  		  <if test="aStuId != null and aStuId != ''"> and a_Stu_Id = #{aStuId} </if>
-		  		  <if test="aDate != null and aDate != ''"> and a_Date = #{aDate} </if>
-		  		  <if test="aCourseName != null and aCourseName != ''"> and a_Course_Name = #{aCourseName} </if>
-		  		  <if test="aPeriodId != null and aPeriodId != ''"> and a_period_Id = #{aPeriodId} </if>
-		  		  <if test="aOperator != null and aOperator != ''"> and a_Operator = #{aOperator} </if>
-		  		  <if test="aAttendanceType != null and aAttendanceType != ''"> and a_Attendance_Type = #{aAttendanceType} </if>
-		  		  <if test="aNote != null and aNote != ''"> and a_Note = #{aNote} </if>
+		  		  <if test="aId != null and aId != ''"> and a.a_Id = #{aId} </if>
+		  		  <if test="aClasss != null and aClasss != ''"> and a.a_Classs = #{aClasss} </if>
+		  		  <if test="aStudentNo != null and aStudentNo != ''"> and a.a_Student_No = #{aStudentNo} </if>
+		  		  <if test="aStuId != null and aStuId != ''"> and a.a_Stu_Id = #{aStuId} </if>
+		  		  <if test="aDate != null and aDate != ''"> and a.a_Date = #{aDate} </if>
+		  		  <if test="aCourseName != null and aCourseName != ''"> and a.a_Course_Name = #{aCourseName} </if>
+		  		  <if test="aPeriodId != null and aPeriodId != ''"> and a.a_period_Id = #{aPeriodId} </if>
+		  		  <if test="aOperator != null and aOperator != ''"> and a.a_Operator = #{aOperator} </if>
+		  		  <if test="aAttendanceType != null and aAttendanceType != ''"> and a.a_Attendance_Type = #{aAttendanceType} </if>
+		  		  <if test="aNote != null and aNote != ''"> and a.a_Note = #{aNote} </if>
 		  		</where>
         <choose>
             <when test="sort != null and sort.trim() != ''">
                 order by ${sort} ${order}
             </when>
 			<otherwise>
-                order by a_Id desc
+                order by a.a_Stu_Id,a.a_Date desc
 			</otherwise>
         </choose>
 		<if test="offset != null and limit != null">

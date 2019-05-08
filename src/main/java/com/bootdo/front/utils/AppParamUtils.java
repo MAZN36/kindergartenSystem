@@ -21,8 +21,8 @@ public class AppParamUtils {
 				sb.append(temp);
 			}
 			br.close();
-//			strDecrypted = EncryptUtil.decryptThreeDESECB(sb.toString());
-			strDecrypted = sb.toString();
+			strDecrypted = EncryptUtil.decryptThreeDESECB(sb.toString());
+//			strDecrypted = sb.toString();
 //			System.out.println("strDecrypted=" + strDecrypted);
 		} catch (Exception e) {
 			e.printStackTrace();

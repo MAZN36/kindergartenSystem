@@ -51,6 +51,8 @@ public class UserDO implements Serializable {
     //所在地区
     private String district;
 
+    private Integer age;
+
     public Long getUserId() {
         return userId;
     }
@@ -217,6 +219,14 @@ public class UserDO implements Serializable {
 
     public void setDistrict(String district) {
         this.district = district;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.bootdo.kinder.service;
 
+import com.bootdo.common.utils.PageUtils;
+import com.bootdo.common.utils.Query;
 import com.bootdo.kinder.entity.StudentInfoVO;
 
 import java.util.List;
@@ -27,4 +29,13 @@ public interface StudentInfoService {
 	int remove(String stuId);
 	
 	int batchRemove(String[] stuIds);
+
+	public PageUtils findPage(Query query);
+
+	/**
+	 * 校验学生是否存在
+	 * @param studentNo
+	 * @return
+	 */
+	public boolean verifyTeacherNo(String studentNo);
 }

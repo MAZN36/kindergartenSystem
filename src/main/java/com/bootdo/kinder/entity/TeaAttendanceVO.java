@@ -6,7 +6,7 @@ import java.util.Date;
 
 
 /**
- * 学生出勤表
+ * 老师出勤表
  * 
  * @author mazhen
  * @email mazhen@datang.com
@@ -18,7 +18,7 @@ public class TeaAttendanceVO implements Serializable {
 			//编号
 		private String aId;
 			//工号
-		private String aStudentNo;
+		private String aTeaNo;
 			//教师编号
 		private String aTeaId;
 			//上班时间
@@ -45,14 +45,14 @@ public class TeaAttendanceVO implements Serializable {
 	/**
 	 * 设置：工号
 	 */
-	public void setAStudentNo(String aStudentNo) {
-		this.aStudentNo = aStudentNo;
+	public void setATeaNo(String aTeaNo) {
+		this.aTeaNo = aTeaNo;
 	}
 	/**
 	 * 获取：工号
 	 */
-	public String getAStudentNo() {
-		return aStudentNo;
+	public String getATeaNo() {
+		return aTeaNo;
 	}
 	/**
 	 * 设置：教师编号

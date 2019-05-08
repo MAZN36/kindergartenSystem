@@ -35,7 +35,10 @@ public class StudentResultsVO implements Serializable {
 		private String rPass;
 			//备注
 		private String rNote;
-	
+
+		private String courseName;
+		private String classesName;
+
 		/**
 	 * 设置：编号
 	 */
@@ -144,5 +147,21 @@ public class StudentResultsVO implements Serializable {
 	 */
 	public String getRNote() {
 		return rNote;
+	}
+
+	public String getCourseName() {
+		return courseName;
+	}
+
+	public void setCourseName(String courseName) {
+		this.courseName = courseName;
+	}
+
+	public String getClassesName() {
+		return classesName;
+	}
+
+	public void setClassesName(String classesName) {
+		this.classesName = classesName;
 	}
 }

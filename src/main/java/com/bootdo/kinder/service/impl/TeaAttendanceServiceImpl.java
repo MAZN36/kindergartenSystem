@@ -1,5 +1,8 @@
 package com.bootdo.kinder.service.impl;
 
+import com.bootdo.common.utils.PageUtils;
+import com.bootdo.common.utils.Query;
+import com.bootdo.kinder.entity.StuAttendanceVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -51,5 +54,12 @@ public class TeaAttendanceServiceImpl implements TeaAttendanceService {
 	public int batchRemove(String[] aIds){
 		return teaAttendanceDao.batchRemove(aIds);
 	}
-	
+
+	@Override
+	public PageUtils findPage(Query query){
+		List<TeaAttendanceVO> teaAttendanceList = this.list(query);
+		int total = this.count(query);
+		PageUtils pageUtils = new PageUtils(teaAttendanceList, total);
+		return pageUtils;
+	}
 }

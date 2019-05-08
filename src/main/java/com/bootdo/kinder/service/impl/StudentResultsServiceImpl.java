@@ -1,5 +1,8 @@
 package com.bootdo.kinder.service.impl;
 
+import com.bootdo.common.utils.PageUtils;
+import com.bootdo.common.utils.Query;
+import com.bootdo.kinder.entity.StudentInfoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,6 +53,14 @@ public class StudentResultsServiceImpl implements StudentResultsService {
 	@Override
 	public int batchRemove(String[] rIds){
 		return studentResultsDao.batchRemove(rIds);
+	}
+
+	@Override
+	public PageUtils findPage(Query query){
+		List<StudentResultsVO> studentResultsList = this.list(query);
+		int total = this.count(query);
+		PageUtils pageUtils = new PageUtils(studentResultsList, total);
+		return pageUtils;
 	}
 	
 }

@@ -1,5 +1,7 @@
 package com.bootdo.kinder.service;
 
+import com.bootdo.common.utils.PageUtils;
+import com.bootdo.common.utils.Query;
 import com.bootdo.kinder.entity.TeaAttendanceVO;
 
 import java.util.List;
@@ -27,4 +29,6 @@ public interface TeaAttendanceService {
 	int remove(String aId);
 	
 	int batchRemove(String[] aIds);
+
+	public PageUtils findPage(Query query);
 }

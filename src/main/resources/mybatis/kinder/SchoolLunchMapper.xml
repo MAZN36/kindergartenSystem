@@ -4,15 +4,15 @@
 <mapper namespace="com.bootdo.kinder.dao.mysql.SchoolLunchDao">
 
 	<select id="get" resultType="com.bootdo.kinder.entity.SchoolLunchVO">
-		select `sl_id`,`sl_name`,`a_Student_No`,`a_Date`,`a_Note` from s_school_lunch where sl_id = #{value}
+		select `sl_id`,`sl_name`,`sl_taste`,`a_Date`,`a_Note` from s_school_lunch where sl_id = #{value}
 	</select>
 
 	<select id="list" resultType="com.bootdo.kinder.entity.SchoolLunchVO">
-		select `sl_id`,`sl_name`,`a_Student_No`,`a_Date`,`a_Note` from s_school_lunch
+		select `sl_id`,`sl_name`,`sl_taste`,`a_Date`,`a_Note` from s_school_lunch
         <where>  
 		  		  <if test="slId != null and slId != ''"> and sl_id = #{slId} </if>
 		  		  <if test="slName != null and slName != ''"> and sl_name = #{slName} </if>
-		  		  <if test="aStudentNo != null and aStudentNo != ''"> and a_Student_No = #{aStudentNo} </if>
+		  		  <if test="slTaste != null and slTaste != ''"> and sl_taste = #{slTaste} </if>
 		  		  <if test="aDate != null and aDate != ''"> and a_Date = #{aDate} </if>
 		  		  <if test="aNote != null and aNote != ''"> and a_Note = #{aNote} </if>
 		  		</where>
@@ -21,7 +21,7 @@
                 order by ${sort} ${order}
             </when>
 			<otherwise>
-                order by sl_id desc
+                order by a_Date desc
 			</otherwise>
         </choose>
 		<if test="offset != null and limit != null">
@@ -34,7 +34,7 @@
 		 <where>  
 		  		  <if test="slId != null and slId != ''"> and sl_id = #{slId} </if>
 		  		  <if test="slName != null and slName != ''"> and sl_name = #{slName} </if>
-		  		  <if test="aStudentNo != null and aStudentNo != ''"> and a_Student_No = #{aStudentNo} </if>
+		  		  <if test="slTaste != null and slTaste != ''"> and sl_taste = #{slTaste} </if>
 		  		  <if test="aDate != null and aDate != ''"> and a_Date = #{aDate} </if>
 		  		  <if test="aNote != null and aNote != ''"> and a_Note = #{aNote} </if>
 		  		</where>
@@ -48,7 +48,7 @@
 		(
 			`sl_id`, 
 			`sl_name`, 
-			`a_Student_No`, 
+			`sl_taste`, 
 			`a_Date`, 
 			`a_Note`
 		)
@@ -56,7 +56,7 @@
 		(
 			#{slId}, 
 			#{slName}, 
-			#{aStudentNo}, 
+			#{slTaste}, 
 			#{aDate}, 
 			#{aNote}
 		)
@@ -66,7 +66,7 @@
 		update s_school_lunch 
 		<set>
 			<if test="slName != null">`sl_name` = #{slName}, </if>
-			<if test="aStudentNo != null">`a_Student_No` = #{aStudentNo}, </if>
+			<if test="slTaste != null">`sl_taste` = #{slTaste}, </if>
 			<if test="aDate != null">`a_Date` = #{aDate}, </if>
 			<if test="aNote != null">`a_Note` = #{aNote}</if>
 		</set>

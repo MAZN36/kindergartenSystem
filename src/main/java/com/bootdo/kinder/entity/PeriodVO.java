@@ -19,8 +19,11 @@ public class PeriodVO implements Serializable {
 		private String pId;
 			//班级，引用外键
 		private String pClasss;
+		private String classesName;
 			//课程名称，引用外键
 		private String pCourse;
+		//课程id
+		private String courseName;
 			//开始时间
 		private Date pStartdate;
 			//结束时间
@@ -99,5 +102,21 @@ public class PeriodVO implements Serializable {
 	 */
 	public String getPNote() {
 		return pNote;
+	}
+
+	public String getCourseName() {
+		return courseName;
+	}
+
+	public void setCourseName(String courseName) {
+		this.courseName = courseName;
+	}
+
+	public String getClassesName() {
+		return classesName;
+	}
+
+	public void setClassesName(String classesName) {
+		this.classesName = classesName;
 	}
 }

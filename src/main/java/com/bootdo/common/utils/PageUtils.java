@@ -32,4 +32,8 @@ public class  PageUtils implements Serializable {
 		this.rows = rows;
 	}
 
+	public int getPageCount(int pageSize) {
+		int pageCount = (int)(Math.ceil(total*1.0 / (pageSize < 1 ? 10 : pageSize)));
+		return pageCount;
+	}
 }

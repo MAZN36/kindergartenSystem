@@ -1,5 +1,7 @@
 package com.bootdo.kinder.entity;
 
+import com.bootdo.system.domain.UserDO;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -49,7 +51,10 @@ public class StudentInfoVO implements Serializable {
 		private String sState;
 			//备注
 		private String sNote;
-	
+
+		private UserDO user;
+	    //班级名称
+		private String className;
 		/**
 	 * 设置：编号
 	 */
@@ -253,5 +258,21 @@ public class StudentInfoVO implements Serializable {
 	 */
 	public String getSNote() {
 		return sNote;
+	}
+
+	public UserDO getUser() {
+		return user;
+	}
+
+	public void setUser(UserDO user) {
+		this.user = user;
+	}
+
+	public String getClassName() {
+		return className;
+	}
+
+	public void setClassName(String className) {
+		this.className = className;
 	}
 }

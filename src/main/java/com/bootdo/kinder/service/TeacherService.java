@@ -1,5 +1,7 @@
 package com.bootdo.kinder.service;
 
+import com.bootdo.common.utils.PageUtils;
+import com.bootdo.common.utils.Query;
 import com.bootdo.kinder.entity.TeacherVO;
 
 import java.util.List;
@@ -27,4 +29,13 @@ public interface TeacherService {
 	int remove(String tId);
 	
 	int batchRemove(String[] tIds);
+
+	public PageUtils findPage(Query query);
+
+	/**
+	 * 校验老师是否存在
+	 * @param teacherNo
+	 * @return
+	 */
+	public boolean verifyTeacherNo(String teacherNo);
 }

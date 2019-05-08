@@ -3,30 +3,87 @@
 
 <mapper namespace="com.bootdo.kinder.dao.mysql.StudentInfoDao">
 
+	<sql id="studentInfoColumns">
+	   a.stu_Id,
+       a.s_userId,
+       a.s_tudentid,
+       a.s_classs,
+       a.s_name,
+       a.s_sex,
+       a.s_national,
+       a.s_date,
+       a.s_native_place,
+       a.s_address,
+       a.s_parents_name,
+       a.s_parents_number,
+       a.s_number,
+       a.s_entrance_date,
+       a.s_qq,
+       a.s_state,
+       a.s_note,
+       u.user_id AS "user.userId",
+       u.username AS "user.username",
+       u.name AS "user.name",
+       u.password AS "user.password",
+       u.dept_id AS "user.deptId",
+       u.email AS "user.email",
+       u.mobile AS "user.mobile",
+       u.status AS "user.status",
+       u.user_id_create AS "user.userIdCreate",
+       u.gmt_create AS "user.gmtCreate",
+       u.gmt_modified AS "user.gmtModified",
+       u.sex AS "user.sex",
+       u.birth AS "user.birth",
+       u.pic_id AS "user.picId",
+       u.live_address AS "user.liveAddress",
+       u.hobby AS "user.hobby",
+       u.province AS "user.province",
+       u.city AS "user.city",
+       u.district AS "user.district",
+       u.age AS "user.age",
+       d.name AS "className"
+	</sql>
+
+	<sql id="studentInfoJoins">
+		left join sys_user u on a.s_userId = u.user_id
+		left join sys_dept d on d.dept_id = a.s_classs
+		left join sys_user_role r on r.user_id = a.s_userId
+        left join sys_role s on s.role_id = r.role_id
+	</sql>
+
 	<select id="get" resultType="com.bootdo.kinder.entity.StudentInfoVO">
-		select `stu_Id`,`s_userId`,`s_tudentid`,`s_classs`,`s_name`,`s_sex`,`s_national`,`s_date`,`s_native_place`,`s_address`,`s_parents_name`,`s_parents_number`,`s_number`,`s_entrance_date`,`s_qq`,`s_state`,`s_note` from s_student_info where stu_Id = #{value}
+		select
+		<include refid="studentInfoColumns"/>
+		from s_student_info a
+		<include refid="studentInfoJoins"/>
+		 where stu_Id = #{value} OR s_userId = #{value}
 	</select>
 
 	<select id="list" resultType="com.bootdo.kinder.entity.StudentInfoVO">
-		select `stu_Id`,`s_userId`,`s_tudentid`,`s_classs`,`s_name`,`s_sex`,`s_national`,`s_date`,`s_native_place`,`s_address`,`s_parents_name`,`s_parents_number`,`s_number`,`s_entrance_date`,`s_qq`,`s_state`,`s_note` from s_student_info
-        <where>  
-		  		  <if test="stuId != null and stuId != ''"> and stu_Id = #{stuId} </if>
-		  		  <if test="sUserid != null and sUserid != ''"> and s_userId = #{sUserid} </if>
-		  		  <if test="sTudentid != null and sTudentid != ''"> and s_tudentid = #{sTudentid} </if>
-		  		  <if test="sClasss != null and sClasss != ''"> and s_classs = #{sClasss} </if>
-		  		  <if test="sName != null and sName != ''"> and s_name = #{sName} </if>
-		  		  <if test="sSex != null and sSex != ''"> and s_sex = #{sSex} </if>
-		  		  <if test="sNational != null and sNational != ''"> and s_national = #{sNational} </if>
-		  		  <if test="sDate != null and sDate != ''"> and s_date = #{sDate} </if>
-		  		  <if test="sNativePlace != null and sNativePlace != ''"> and s_native_place = #{sNativePlace} </if>
-		  		  <if test="sAddress != null and sAddress != ''"> and s_address = #{sAddress} </if>
-		  		  <if test="sParentsName != null and sParentsName != ''"> and s_parents_name = #{sParentsName} </if>
-		  		  <if test="sParentsNumber != null and sParentsNumber != ''"> and s_parents_number = #{sParentsNumber} </if>
-		  		  <if test="sNumber != null and sNumber != ''"> and s_number = #{sNumber} </if>
-		  		  <if test="sEntranceDate != null and sEntranceDate != ''"> and s_entrance_date = #{sEntranceDate} </if>
-		  		  <if test="sQq != null and sQq != ''"> and s_qq = #{sQq} </if>
-		  		  <if test="sState != null and sState != ''"> and s_state = #{sState} </if>
-		  		  <if test="sNote != null and sNote != ''"> and s_note = #{sNote} </if>
+		select
+		<include refid="studentInfoColumns"/>
+		from s_student_info a
+		<include refid="studentInfoJoins"/>
+        <where>
+			      s.role_sign='parent'
+		  		  <if test="stuId != null and stuId != ''"> and a.stu_Id = #{stuId} </if>
+		  		  <if test="sUserid != null and sUserid != ''"> and a.s_userId = #{sUserid} </if>
+		  		  <if test="sTudentid != null and sTudentid != ''"> and a.s_tudentid = #{sTudentid} </if>
+		  		  <if test="sClasss != null and sClasss != ''"> and a.s_classs = #{sClasss} </if>
+		  		  <if test="sName != null and sName != ''"> and a.s_name = #{sName} </if>
+		  		  <if test="sSex != null and sSex != ''"> and a.s_sex = #{sSex} </if>
+		  		  <if test="sNational != null and sNational != ''"> and a.s_national = #{sNational} </if>
+		  		  <if test="sDate != null and sDate != ''"> and a.s_date = #{sDate} </if>
+		  		  <if test="sNativePlace != null and sNativePlace != ''"> and a.s_native_place = #{sNativePlace} </if>
+		  		  <if test="sAddress != null and sAddress != ''"> and a.s_address = #{sAddress} </if>
+		  		  <if test="sParentsName != null and sParentsName != ''"> and a.s_parents_name = #{sParentsName} </if>
+		  		  <if test="sParentsNumber != null and sParentsNumber != ''"> and a.s_parents_number = #{sParentsNumber} </if>
+		  		  <if test="sNumber != null and sNumber != ''"> and a.s_number = #{sNumber} </if>
+		  		  <if test="sEntranceDate != null and sEntranceDate != ''"> and a.s_entrance_date = #{sEntranceDate} </if>
+		  		  <if test="sQq != null and sQq != ''"> and a.s_qq = #{sQq} </if>
+		  		  <if test="sState != null and sState != ''"> and a.s_state = #{sState} </if>
+		  		  <if test="sNote != null and sNote != ''"> and a.s_note = #{sNote} </if>
+				  <if test="status != null and status != ''"> and u.status = #{status} </if>
 		  		</where>
         <choose>
             <when test="sort != null and sort.trim() != ''">

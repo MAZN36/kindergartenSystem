@@ -20,9 +20,9 @@ public class SchoolLunchVO implements Serializable {
 			//菜品名称
 		private String slName;
 			//菜品口味
-		private String aStudentNo;
+		private String slTaste;
 			//日期
-		private Date aDate;
+		private String aDate;
 			//备注
 		private String aNote;
 	
@@ -53,27 +53,24 @@ public class SchoolLunchVO implements Serializable {
 	/**
 	 * 设置：菜品口味
 	 */
-	public void setAStudentNo(String aStudentNo) {
-		this.aStudentNo = aStudentNo;
+	public void setSlTaste(String slTaste) {
+		this.slTaste = slTaste;
 	}
 	/**
 	 * 获取：菜品口味
 	 */
-	public String getAStudentNo() {
-		return aStudentNo;
+	public String getSlTaste() {
+		return slTaste;
 	}
-	/**
-	 * 设置：日期
-	 */
-	public void setADate(Date aDate) {
-		this.aDate = aDate;
-	}
-	/**
-	 * 获取：日期
-	 */
-	public Date getADate() {
+
+	public String getaDate() {
 		return aDate;
 	}
+
+	public void setaDate(String aDate) {
+		this.aDate = aDate;
+	}
+
 	/**
 	 * 设置：备注
 	 */
