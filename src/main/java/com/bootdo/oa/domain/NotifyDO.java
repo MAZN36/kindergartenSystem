@@ -43,6 +43,10 @@ public class NotifyDO implements Serializable {
 	
 	private Long[] userIds;
 
+	private String receiveId; //接收人id
+	private String sendName; //发送人名
+	private String roleName; //角色名称
+
 	/**
 	 * 设置：编号
 	 */
@@ -194,6 +198,30 @@ public class NotifyDO implements Serializable {
 		this.userIds = userIds;
 	}
 
+	public String getReceiveId() {
+		return receiveId;
+	}
+
+	public void setReceiveId(String receiveId) {
+		this.receiveId = receiveId;
+	}
+
+	public String getSendName() {
+		return sendName;
+	}
+
+	public void setSendName(String sendName) {
+		this.sendName = sendName;
+	}
+
+	public String getRoleName() {
+		return roleName;
+	}
+
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
+	}
+
 	@Override
 	public String toString() {
 		return "NotifyDO{" +
@@ -210,6 +238,9 @@ public class NotifyDO implements Serializable {
 				", remarks='" + remarks + '\'' +
 				", delFlag='" + delFlag + '\'' +
 				", userIds=" + Arrays.toString(userIds) +
+				", receiveId='" + receiveId + '\'' +
+				", sendName='" + sendName + '\'' +
+				", roleName='" + roleName + '\'' +
 				'}';
 	}
 }

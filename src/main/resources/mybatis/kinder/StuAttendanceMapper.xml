@@ -30,7 +30,7 @@
 		  		  <if test="aClasss != null and aClasss != ''"> and a.a_Classs = #{aClasss} </if>
 		  		  <if test="aStudentNo != null and aStudentNo != ''"> and a.a_Student_No = #{aStudentNo} </if>
 		  		  <if test="aStuId != null and aStuId != ''"> and a.a_Stu_Id = #{aStuId} </if>
-		  		  <if test="aDate != null and aDate != ''"> and a.a_Date = #{aDate} </if>
+		  		  <if test="aDate != null and aDate != ''"> and date_format(a.a_Date,'%Y-%m-%d') = #{aDate} </if>
 		  		  <if test="aCourseName != null and aCourseName != ''"> and a.a_Course_Name = #{aCourseName} </if>
 		  		  <if test="aPeriodId != null and aPeriodId != ''"> and a.a_period_Id = #{aPeriodId} </if>
 		  		  <if test="aOperator != null and aOperator != ''"> and a.a_Operator = #{aOperator} </if>

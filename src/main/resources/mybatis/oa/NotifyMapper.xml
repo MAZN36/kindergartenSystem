@@ -157,5 +157,32 @@
 		</if>
 		
 	</select>
+	
+	<select id="selectMessageList" resultType="com.bootdo.oa.domain.NotifyDO">
+		select distinct a.id ,a.type,a.content,a.create_by,a.update_date,
+		s.name    sendName,
+		sr.role_name roleName
+		from  oa_notify a
+		left join sys_user s on a.create_by = s.user_id
+		left join sys_user_role r on r.user_id = a.create_by
+		left join sys_role sr on sr.role_id = r.role_id,
+		oa_notify_record b
+		where a.id = b.notify_id  and (a.create_by=#{userId} or b.user_id=#{userId}) and a.type=5 order by a.update_date desc
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+
+	<select id="selectMessageCount" resultType="int">
+		select count(1) count
+		from  oa_notify a
+		left join sys_user s on a.create_by = s.user_id
+		left join sys_user_role r on r.user_id = a.create_by
+		left join sys_role sr on sr.role_id = r.role_id,
+		oa_notify_record b
+		where a.id = b.notify_id  and (a.create_by=#{userId} or b.user_id=#{userId}) and a.type=5 order by a.update_date desc
+	</select>
+
+
 
 </mapper>

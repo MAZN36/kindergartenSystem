@@ -37,4 +37,19 @@ public interface NotifyDao {
 	int countDTO(Map<String, Object> map);
 
 	List<NotifyDTO> listDTO(Map<String, Object> map);
+
+	/**
+	 * 查询手机端消息列表
+	 * @param map
+	 * @return
+	 */
+	List<NotifyDO> selectMessageList(Map<String, Object> map);
+
+	/**
+	 * 查询消息总数
+	 * @param map
+	 * @return
+	 */
+	int selectMessageCount(Map<String, Object> map);
+
 }

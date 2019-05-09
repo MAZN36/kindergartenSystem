@@ -50,11 +50,14 @@ public class StudentResultsDelegate {
         Integer pageSize = jsonObj.getInteger("pageSize");
         String rClasss = jsonObj.getString("classId");//班级
         String pCourse = jsonObj.getString("pCourse");//课程
-        String rStuId = jsonObj.getString("loginId");//学生id
+        Object rStuId = jsonObj.get("userId");//学生id
+        String roleName = jsonObj.getString("roleName");//用户标识
         JSONObject queryJson = new JSONObject();
         queryJson.put("rClasss", rClasss);
         queryJson.put("pCourse", pCourse);
-        queryJson.put("rStuId", rStuId);
+        if ("parent".equals(roleName)){
+            queryJson.put("rStuId", rStuId);
+        }
         Query query = new Query(queryJson,pageNo,pageSize);
         PageUtils studentResultsPage = studentResultsService.findPage(query);
         List<StudentResultsVO> studentResultsList = (List<StudentResultsVO>)studentResultsPage.getRows();

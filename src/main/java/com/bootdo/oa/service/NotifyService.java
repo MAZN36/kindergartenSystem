@@ -32,4 +32,8 @@ public interface NotifyService {
 //	Map<String, Object> message(Long userId);
 
 	PageUtils selfList(Map<String, Object> map);
+
+	PageUtils selectMessageList(Map<String, Object> map);
+
+	void saveMessage(NotifyDO notify, String stuId, String classId);
 }

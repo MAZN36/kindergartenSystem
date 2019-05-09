@@ -164,6 +164,18 @@ public class AppReqController {
                 case "getStuResultList" : //获取学生成绩列表
                     returnStr = studentResultsDelegate.getStuResultList(jsonObj);
                     break;
+                case "studentSign" : //老师保存学生点名信息
+                    returnStr = stuAttendanceDelegate.studentSign(jsonObj);
+                    break;
+                case "queryIsCallList" : //老师保存学生点名信息
+                    returnStr = stuAttendanceDelegate.queryIsCallList(jsonObj);
+                    break;
+                case "saveMessage" : //保存老师和家长的消息
+                    returnStr = reqDelegate.saveMessage(jsonObj);
+                    break;
+                case "getMessageList" : //获取所有消息列表
+                    returnStr = reqDelegate.getMessageList(jsonObj);
+                    break;
                 default:
                     returnStr = "{\"resultCode\":\"1\",\"resultMessage\":\"未找到对应key值\"}";
                     break;

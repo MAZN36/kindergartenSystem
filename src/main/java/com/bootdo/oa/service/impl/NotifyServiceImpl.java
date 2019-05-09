@@ -1,5 +1,10 @@
 package com.bootdo.oa.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
+import com.bootdo.kinder.entity.StudentInfoVO;
+import com.bootdo.kinder.entity.TeacherVO;
+import com.bootdo.kinder.service.StudentInfoService;
+import com.bootdo.kinder.service.TeacherService;
 import com.bootdo.system.domain.UserDO;
 import com.bootdo.system.service.SessionService;
 import org.apache.shiro.session.Session;
@@ -39,6 +44,12 @@ public class NotifyServiceImpl implements NotifyService {
     private SessionService sessionService;
     @Autowired
     private SimpMessagingTemplate template;
+
+    @Autowired
+    private TeacherService teacherService;
+
+    @Autowired
+    private StudentInfoService studentInfoService;
 
     @Override
     public NotifyDO get(Long id) {
@@ -127,4 +138,48 @@ public class NotifyServiceImpl implements NotifyService {
         return page;
     }
 
+    @Override
+    public PageUtils selectMessageList(Map<String, Object> map) {
+        List<NotifyDO> notifyDOS = notifyDao.selectMessageList(map);
+        int total = notifyDao.selectMessageCount(map);
+        PageUtils pageUtils = new PageUtils(notifyDOS, total);
+        return pageUtils;
+    }
+
+    @Transactional
+    @Override
+    public void saveMessage(NotifyDO notify, String stuId, String classId) {
+        notifyDao.save(notify);
+        NotifyRecordDO notifyRecord = null;
+        if (stuId!=null){ //老师给家长发
+            notifyRecord = new NotifyRecordDO();
+            notifyRecord.setIsRead(1);
+            notifyRecord.setNotifyId(notify.getId());
+            StudentInfoVO studentInfoVO = studentInfoService.get(stuId);
+            if (studentInfoVO!=null&&studentInfoVO.getUser()!=null){
+                notifyRecord.setUserId(studentInfoVO.getUser().getUserId());
+                notifyRecord.setReadDate(notify.getUpdateDate());
+                recordDao.save(notifyRecord);
+            }
+        }else if (classId!=null){ //家长给老师发
+            JSONObject queryJson = new JSONObject();
+            queryJson.put("status","1");
+            queryJson.put("deptId",classId);
+            List<TeacherVO> teacherVOList = teacherService.list(queryJson);
+            List<NotifyRecordDO> records = new ArrayList<NotifyRecordDO>();
+            if (teacherVOList!=null){
+                for (TeacherVO teacherVO : teacherVOList){
+                    if (teacherVO!=null&&teacherVO.getUser()!=null){
+                        notifyRecord = new NotifyRecordDO();
+                        notifyRecord.setIsRead(1);
+                        notifyRecord.setNotifyId(notify.getId());
+                        notifyRecord.setUserId(teacherVO.getUser().getUserId());
+                        notifyRecord.setReadDate(notify.getUpdateDate());
+                        records.add(notifyRecord);
+                    }
+                }
+                recordDao.batchSave(records);
+            }
+        }
+    }
 }

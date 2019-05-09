@@ -78,6 +78,7 @@
 				  <if test="name != null and name != ''"> and u.name = #{name} </if>
 				  <if test="mobile != null and mobile != ''"> and u.mobile = #{mobile} </if>
 				  <if test="status != null and status != ''"> and u.status = #{status} </if>
+			      <if test="deptId != null and deptId != ''"> and u.dept_id = #{deptId} </if>
 		  		</where>
         <choose>
             <when test="sort != null and sort.trim() != ''">

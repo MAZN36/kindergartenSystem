@@ -22,6 +22,9 @@ import com.bootdo.kinder.service.PeriodService;
 import com.bootdo.kinder.service.SchoolLunchService;
 import com.bootdo.kinder.service.StudentInfoService;
 import com.bootdo.kinder.service.TeacherService;
+import com.bootdo.oa.domain.NotifyDO;
+import com.bootdo.oa.service.NotifyRecordService;
+import com.bootdo.oa.service.NotifyService;
 import com.bootdo.system.domain.MenuDO;
 import com.bootdo.system.domain.RoleDO;
 import com.bootdo.system.domain.UserDO;
@@ -33,6 +36,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import springfox.documentation.spring.web.json.Json;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -70,6 +74,11 @@ public class AppReqDelegate {
 
     @Autowired
     private RoleService roleService;
+
+    @Autowired
+    private NotifyService notifyService;
+    @Autowired
+    private NotifyRecordService notifyRecordService;
 
     /**
      * 登录系统
@@ -147,7 +156,7 @@ public class AppReqDelegate {
         Integer deptId = jsonObj.getInteger("classId");
         JSONObject resultJson = new JSONObject();
         JSONObject queryJson = new JSONObject();
-        queryJson.put("state","1");
+        queryJson.put("status","1");
         queryJson.put("deptId",deptId);
         Query query = new Query(queryJson,pageNo,pageSize);
         PageUtils page = teacherService.findPage(query);
@@ -177,10 +186,15 @@ public class AppReqDelegate {
         Integer pageNo = jsonObj.getInteger("pagNo");
         Integer pageSize = jsonObj.getInteger("pageSize");
         Integer classId = jsonObj.getInteger("classId");
+        Object stuId = jsonObj.get("userId");//学生id
+        String roleName = jsonObj.getString("roleName");//用户标识
         JSONObject resultJson = new JSONObject();
         JSONObject queryJson = new JSONObject();
-        queryJson.put("state","1");
+        queryJson.put("status","1");
         queryJson.put("sClasss",classId);
+        if ("parent".equals(roleName)){
+            queryJson.put("stuId", stuId);
+        }
         Query query = new Query(queryJson,pageNo,pageSize);
         PageUtils studentPage = studentInfoService.findPage(query);
         List<StudentInfoVO> studentInfoList = (List<StudentInfoVO>) studentPage.getRows();
@@ -564,6 +578,91 @@ public class AppReqDelegate {
         return result;
     }
 
+    /**
+     * 获取所有消息列表
+     * @param jsonObj
+     * @return
+     */
+    public String getMessageList(JSONObject jsonObj){
+        logger.info("开始获取所有消息列表...请求参数为："+jsonObj);
+        JSONObject resultJson = new JSONObject();
+        Long userId = jsonObj.getLong("userId");
+        String roleName = jsonObj.getString("roleName");
+        String stuId = jsonObj.getString("stuId");
+        Integer pageNo = jsonObj.getInteger("pagNo");
+        Integer pageSize = jsonObj.getInteger("pageSize");
+        UserDO userDO = null;
+        if ("teacher".equals(roleName)){
+            StudentInfoVO studentInfoVO = studentInfoService.get(stuId);
+            if (studentInfoVO!=null&&studentInfoVO.getUser()!=null){
+                userDO = studentInfoVO.getUser();
+            }
+        }else if ("parent".equals(roleName)){
+            userDO = userService.get(userId);
+        }
+        JSONArray messageArray = new JSONArray();
+        JSONObject messageJson = null;
+        if (userDO!=null){
+            JSONObject queryJson = new JSONObject();
+            queryJson.put("userId",userDO.getUserId());
+            Query query = new Query(queryJson,pageNo,pageSize);
+            PageUtils messagePage = notifyService.selectMessageList(query);
+            List<NotifyDO> messageList = (List<NotifyDO>) messagePage.getRows();
+            if (messageList!=null){
+                for (NotifyDO notifyDO : messageList){
+                    messageJson = new JSONObject();
+                    messageJson.put("name",notifyDO.getSendName());
+                    messageJson.put("type",notifyDO.getRoleName());
+                    messageJson.put("time",DateTimeUtils.formatDateTime(notifyDO.getUpdateDate()));
+                    messageJson.put("context",notifyDO.getContent());
+                    messageArray.add(messageJson);
+                }
+            }
+            resultJson.put("messageList",messageArray);
+            resultJson.put("pageNo",pageNo);
+            resultJson.put("pageSize",pageSize);
+            resultJson.put("pageCount",messagePage.getPageCount(pageSize));
+            resultJson.putAll(R.appOk());
+        }else {
+            resultJson.putAll(R.appOk("1","用户信息不存在，请联系管理员！"));
+        }
+        logger.info("结束获取所有消息列表...请求参数为："+jsonObj);
+        return resultJson.toString();
+    }
+
+    /**
+     * 保存老师和家长的消息
+     * @param jsonObj
+     * @return
+     */
+    public String saveMessage(JSONObject jsonObj){
+        logger.info("开始保存老师和家长的消息...请求参数为："+jsonObj);
+        JSONObject resultJson = new JSONObject();
+        Long userId = jsonObj.getLong("userId");
+        String stuId = jsonObj.getString("stuId");
+        String context = jsonObj.getString("context");
+        String roleName = jsonObj.getString("roleName");
+        String classId = jsonObj.getString("classId");
+        NotifyDO notify = new NotifyDO();
+        notify.setType("5");
+        notify.setContent(context);
+        notify.setStatus("1");
+        notify.setCreateBy(userId);
+        notify.setUpdateDate(new Date());
+        resultJson.putAll(R.appOk());
+        if ("teacher".equals(roleName)){
+            //直接给家长发消息
+            notifyService.saveMessage(notify,stuId,null);
+        }else if ("parent".equals(roleName)){
+            //给所有老师都有一条消息
+            notifyService.saveMessage(notify,null,classId);
+        }else {
+            resultJson.putAll(R.appOk("1","无权限操作！"));
+        }
+        logger.info("结束保存老师和家长的消息...请求参数为："+jsonObj);
+        return resultJson.toString();
+
+    }
     /**
      * 老师实体类转json
      * @param teacherVO
